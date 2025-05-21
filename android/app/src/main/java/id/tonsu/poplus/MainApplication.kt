@@ -1,4 +1,4 @@
-package com.poplus
+package id.tonsu.poplus
 
 import android.app.Application
 import com.facebook.react.PackageList
