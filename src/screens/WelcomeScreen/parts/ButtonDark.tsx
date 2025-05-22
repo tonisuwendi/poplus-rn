@@ -4,11 +4,12 @@ import { styles } from './syles';
 type ButtonDarkProps = {
   imageSource: any;
   text: string;
+  onPress?: () => void;
 };
 
-const ButtonDark = ({ imageSource, text }: ButtonDarkProps) => {
+const ButtonDark = ({ imageSource, text, onPress }: ButtonDarkProps) => {
   return (
-    <TouchableOpacity style={styles.buttonDark}>
+    <TouchableOpacity style={styles.buttonDark} onPress={onPress}>
       <Image
         source={imageSource}
         width={100}
