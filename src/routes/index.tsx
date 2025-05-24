@@ -1,11 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen, WelcomeScreen } from '../screens';
+import { FavoriteScreen, HomeScreen, WelcomeScreen } from '../screens';
 import { useAuthContext } from '../context';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 export type RootStackParamList = {
   Welcome: undefined;
   Home: undefined;
+  Favorite: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -28,6 +29,7 @@ const ReactNavigation = () => {
     >
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Favorite" options={{ headerShown: true, headerTitle: 'Favorites' }} component={FavoriteScreen} />
     </Stack.Navigator>
   );
 };

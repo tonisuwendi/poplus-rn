@@ -1,4 +1,4 @@
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 import { Heart } from 'lucide-react-native';
 import Modal from 'react-native-modal';
 import { styles } from './style';
@@ -33,7 +33,16 @@ const Header = () => {
         </Text>
       </View>
       <View style={styles.headerRight}>
-        <TouchableOpacity style={styles.headerBoxHeart}>
+        <TouchableOpacity
+          style={styles.headerBoxHeart}
+          onPress={() => {
+            if (user) {
+              navigation.navigate('Favorite');
+            } else {
+              Alert.alert('Sign In Required', 'You need to sign in to access favorites.');
+            }
+          }}
+        >
           <Heart size={18} color="#333" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setIsVisibleProfile(true)}>

@@ -1,7 +1,7 @@
 import { Alert, Image, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import Header from './parts/Header';
 import SearchForm from './parts/SearchForm';
 import FilterYear from './parts/FilterYear';
@@ -10,6 +10,7 @@ import supabase from '../../services/supabase';
 import { usaApiUrl } from '../../services/datausa';
 import { IState } from '../../types/state';
 import { useAuthContext } from '../../context';
+import { useFocusEffect } from '@react-navigation/native';
 
 const HomeScreen = () => {
   const [selectedYear, setSelectedYear] = useState<number>(2023);
@@ -64,13 +65,11 @@ const HomeScreen = () => {
     setStateData(newStateData);
   };
 
-  useEffect(() => {
-    handleGetState();
-    return () => {
-      setSelectedYear(2023);
-      setStateData([]);
-    };
-  }, [handleGetState]);
+  useFocusEffect(
+    useCallback(() => {
+      handleGetState();
+    }, [handleGetState])
+  );
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -89,7 +88,7 @@ const HomeScreen = () => {
         <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <SearchForm value={searchKeyword} onSearch={setSearchKeyword} />
           <FilterYear selectedYear={selectedYear} onSelectedYear={setSelectedYear} />
-          { filteredState.length === 0 && !isLoading ? (
+          {filteredState.length === 0 && !isLoading ? (
             <View style={styles.noDataContainer}>
               <Image
                 source={require('../../assets/images/empty.png')}
