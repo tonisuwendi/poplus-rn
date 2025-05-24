@@ -30,8 +30,8 @@ export const styles = StyleSheet.create({
     marginTop: 4,
   },
   photoProfile: {
-    width: 40,
-    height: 40,
+    width: 36,
+    height: 36,
     borderRadius: 20,
     backgroundColor: '#c9c9c9',
   },
@@ -120,5 +120,47 @@ export const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
     padding: 10,
     borderRadius: 50,
+  },
+  modalContent: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+  modalBody: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    height: 'auto',
+  },
+  modalTitle: {
+    fontSize: 16,
+    fontFamily: 'RalewayBold',
+  },
+  modalDesc: {
+    fontSize: 14,
+    fontFamily: 'RalewayMedium',
+    marginTop: 6,
+  },
+  modalButton: {
+    borderWidth: 1,
+    backgroundColor: Colors.primary,
+    borderRadius: 30,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: 48,
+    marginTop: 16,
+    position: 'relative',
+  },
+  modalButtonText: {
+    color: 'white',
+    fontSize: 14,
+    fontFamily: 'RalewaySemiBold',
+  },
+  loadingContainer: {
+    marginTop: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

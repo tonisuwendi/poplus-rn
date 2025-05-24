@@ -1,18 +1,16 @@
-import { Dimensions, StyleSheet } from 'react-native';
-
-const screenHeight = Dimensions.get('window').height;
+import { StyleSheet } from 'react-native';
 
 export const styles =  StyleSheet.create({
   bannerImage: {
     width: '100%',
-    height: screenHeight,
+    height: '100%',
   },
   bgGradient: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: screenHeight,
+    height: '100%',
   },
   content: {
     zIndex: 10,

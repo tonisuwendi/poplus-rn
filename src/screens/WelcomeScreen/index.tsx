@@ -1,13 +1,17 @@
-import { Image, StatusBar, Text, View } from 'react-native';
+import { Alert, Image, StatusBar, Text, View } from 'react-native';
 import { styles } from './syles';
 import LinearGradient from 'react-native-linear-gradient';
 import ButtonDark from './parts/ButtonDark';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../routes';
+import { useAuthContext } from '../../context';
 
 const WelcomeScreen = () => {
+  const { signInWithGoogle } = useAuthContext();
+
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   return (
     <View>
       <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
@@ -40,10 +44,12 @@ const WelcomeScreen = () => {
           <ButtonDark
             imageSource={require('../../assets/images/logo-google.png')}
             text="Sign In With Google"
+            onPress={() => signInWithGoogle()}
           />
           <ButtonDark
             imageSource={require('../../assets/images/logo-facebook.png')}
             text="Sign In With Facebook"
+            onPress={() => Alert.alert('Coming Soon!', 'This feature is not available at this time.')}
           />
           <Text
             style={styles.buttonTextLight}
