@@ -1,7 +1,7 @@
 import { Alert, Image, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Header from './parts/Header';
 import SearchForm from './parts/SearchForm';
 import FilterYear from './parts/FilterYear';
@@ -9,7 +9,7 @@ import StateList from './parts/StateList';
 import supabase from '../../services/supabase';
 import { usaApiUrl } from '../../services/datausa';
 import { IState } from '../../types/state';
-import { useAuthContext } from '../../context';
+import { useAuthContext, useFavoriteContext } from '../../context';
 import { useFocusEffect } from '@react-navigation/native';
 
 const HomeScreen = () => {
@@ -20,6 +20,7 @@ const HomeScreen = () => {
   const [searchKeyword, setSearchKeyword] = useState<string>('');
 
   const { user } = useAuthContext();
+  const { deletedFavoriteIds, setDeletedFavoriteIds } = useFavoriteContext();
 
   const handleGetState = useCallback(async () => {
     setIsLoading(true);
@@ -65,10 +66,27 @@ const HomeScreen = () => {
     setStateData(newStateData);
   };
 
+  useEffect(() => {
+    handleGetState();
+    return () => {
+      setStateData([]);
+      setSelectedYear(2023);
+    };
+  }, [handleGetState]);
+
   useFocusEffect(
     useCallback(() => {
-      handleGetState();
-    }, [handleGetState])
+      if (deletedFavoriteIds.length > 0) {
+        setStateData((prevStateData) =>
+          prevStateData.map((state) =>
+            deletedFavoriteIds.includes(state['ID State'])
+              ? { ...state, isFavorite: false }
+              : state
+          )
+        );
+        setDeletedFavoriteIds([]);
+      }
+    }, [deletedFavoriteIds, setDeletedFavoriteIds])
   );
 
   const onRefresh = async () => {

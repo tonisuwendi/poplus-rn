@@ -4,7 +4,7 @@ import SearchForm from '../HomeScreen/parts/SearchForm';
 import { useCallback, useEffect, useState } from 'react';
 import { Alert, Image, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { IState } from '../../types/state';
-import { useAuthContext } from '../../context';
+import { useAuthContext, useFavoriteContext } from '../../context';
 import { usaApiUrl } from '../../services/datausa';
 import supabase from '../../services/supabase';
 import StateList from './parts/StateList';
@@ -19,6 +19,7 @@ const FavoriteScreen = () => {
   const [searchKeyword, setSearchKeyword] = useState<string>('');
 
   const { user } = useAuthContext();
+  const { deletedFavoriteIds, setDeletedFavoriteIds } = useFavoriteContext();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const handleGetState = useCallback(async () => {
@@ -53,6 +54,7 @@ const FavoriteScreen = () => {
 
   const handleRemoveFavorite = (state: IState) => {
     setStateData((prevState) => prevState.filter((item) => item['ID State'] !== state['ID State']));
+    setDeletedFavoriteIds([...deletedFavoriteIds, state['ID State']]);
   };
 
   useEffect(() => {

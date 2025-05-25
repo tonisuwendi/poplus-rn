@@ -4,6 +4,9 @@ import { Heart } from 'lucide-react-native';
 import { IState } from '../../../types/state';
 import supabase from '../../../services/supabase';
 import { useAuthContext } from '../../../context';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../routes';
 
 export type StateListProps = {
   stateData: IState[];
@@ -14,6 +17,8 @@ export type StateListProps = {
 
 const StateList = ({ stateData, isLoading, onRemoveFavorite, onCancelRemoveFavorite }: StateListProps) => {
   const { user } = useAuthContext();
+
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const handleRemoveFavorite = async (state: IState) => {
     try {
@@ -55,21 +60,23 @@ const StateList = ({ stateData, isLoading, onRemoveFavorite, onCancelRemoveFavor
       ) : (
         stateData.map((stateItem) => (
           <View key={stateItem['ID State']} style={styles.boxItem}>
-            <Image
-              source={{ uri: stateItem.image }}
-              width={500}
-              height={300}
-              style={styles.boxImage}
-            />
+            <TouchableOpacity onPress={() => navigation.navigate('Detail', { state: stateItem })}>
+              <Image
+                source={{ uri: stateItem.image }}
+                width={500}
+                height={300}
+                style={styles.boxImage}
+              />
+            </TouchableOpacity>
             <View style={styles.boxInfo}>
-              <View>
+              <TouchableOpacity onPress={() => navigation.navigate('Detail', { state: stateItem })}>
                 <Text style={styles.boxStateName}>
                   {stateItem.State}
                 </Text>
                 <Text style={styles.boxStatePopulation}>
-                  Population: {stateItem.Population.toLocaleString('en-US')}
+                  Latest Population: {stateItem.Population.toLocaleString('en-US')}
                 </Text>
-              </View>
+              </TouchableOpacity>
               <TouchableOpacity style={styles.boxStateHeart} onPress={() => handleConfirmRemoveFavorite(stateItem)}>
                 <Heart size={20} color="#f00" fill="red" />
               </TouchableOpacity>
